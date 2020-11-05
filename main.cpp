@@ -2,8 +2,6 @@
 #include <fstream>
 #include <vector>
 
-using namespace std;
-
 struct Edge
 {
     float weight;
@@ -42,6 +40,24 @@ void dfs(Node* node) {
     }
 }
 
+void bfs(Node* node) {
+    std::vector<Node*> todo{node};
+
+    while(!todo.empty()) {
+        Node* next_node = todo[0];
+        std::cout << next_node->value << std::endl;
+        next_node-> visited = true;
+
+        todo.erase(todo.begin());
+
+        for( int i = 0; i < next_node->edges.size(); i++) {
+            if (!next_node->edges[i].next->visited) {
+                todo.push_back(next_node->edges[i].next);
+            }
+        }
+    }
+} 
+
 int main(){
     std::vector<Node> graph;
 
@@ -78,7 +94,7 @@ int main(){
     n3.connect(0, &n1);
 
     // DFS - Depth First Search
-    dfs(&n0);
+    bfs(&n0);
 
     return 0;
 }
